@@ -14,3 +14,4 @@ https://blog.logrocket.com/react-context-api-deep-dive-examples/
 https://medium.com/@jscodelover/using-functions-as-the-initial-state-in-the-usestate-hook-in-react-7069cdfcc6ed
 https://getbootstrap.com/docs/5.3/utilities/flex/#justify-content
 https://reactrouter.com/en/main/start/tutorial#the-contact-route-ui
+https://github.com/remix-run/react-router/tree/dev/examples/auth-router-provider
