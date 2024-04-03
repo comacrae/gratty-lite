@@ -1,9 +1,9 @@
+import { useState } from "react";
 import { Form, redirect } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import GrattyNavbar from "../components/navbar";
 
 export default function Login() {
   const [username, setUsername] = useState("");

@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
     navigate("/profile");
   };
 
-  const logout = async () => {
+  const logout = () => {
     setUser(null);
     navigate("/", { replace: true });
   };
