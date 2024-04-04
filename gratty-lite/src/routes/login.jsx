@@ -1,53 +1,41 @@
-import { useState } from "react";
-import { Form, redirect } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
+import {
+  Form,
+  redirect,
+  useRouteLoaderData,
+  useNavigation,
+  useActionData,
+  useLocation,
+} from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-export default function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+export function Login() {
+  let location = useLocation();
+  //location.search returns the query string of the current URL
+  let params = new URLSearchParams(location.search);
+  let from = params.get("from") || "/";
 
-  const { login } = useAuth();
+  let navigation = useNavigation();
+  let isLoggingIn = navigation.formData?.get("username") != null;
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
-    if (username === "user" && password === "password") {
-      await login({ username });
-    } else {
-      alert("Invalid username or password");
-    }
-  };
+  let actionData = useActionData();
 
   return (
-    <Container>
-      <GrattyNavbar />
-
-      <div>
-        <form onSubmit={handleLogin}>
-          <div>
-            <label htmlFor="username">Username:</label>
-            <input
-              id="username"
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="password">Password:</label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <button type="submit">Login</button>
-        </form>
-      </div>
-    </Container>
+    <div>
+      <p>You must log in to view the page at {from}</p>
+      <Form method="post" replace>
+        <input type="hidden" name="redirectTo" value={from} />
+        <label>
+          Username: <input name="username" />
+        </label>{" "}
+        <button type="submit" disabled={isLoggingIn}>
+          {isLoggingIn ? "Logging in..." : "Login"}
+        </button>
+        {actionData && actionData.error ? (
+          <p style={{ color: "red" }}>{actionData.error}</p>
+        ) : null}
+      </Form>
+    </div>
   );
 }

@@ -1,15 +1,17 @@
-export default function AuthProvider() {
-  let isAuthenticated = false;
-  let username = null;
+"use strict";
 
-  async function signin(username) {
+export const AuthProvider = {
+  isAuthenticated: false,
+  userName: null,
+
+  async signin(username) {
     await new Promise((r) => setTimeout(r, 500));
-    isAuthenticated = true;
-    username = username;
-  }
-  async function signout(username) {
+    AuthProvider.isAuthenticated = true;
+    AuthProvider.userName = username;
+  },
+  async signout() {
     await new Promise((r) => setTimeout(r, 500));
-    isAuthenticated = true;
-    username = "";
-  }
-}
+    auth.isAuthenticated = false;
+    auth.userName = "";
+  },
+};

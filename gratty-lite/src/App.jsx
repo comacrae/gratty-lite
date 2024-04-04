@@ -6,22 +6,22 @@ import {
   useFetcher,
   useLocation,
   useNavigation,
-  useRouterLoaderData,
+  useRouteLoaderData,
   Form,
   Link,
 } from "react-router-dom";
 import Root from "./routes/root.jsx";
 import About from "./routes/about.jsx";
-import Login from "./routes/login.jsx";
+import { Login } from "./routes/login.jsx";
 import Secret from "./routes/secret.jsx";
 import Profile from "./routes/profile.jsx";
 import ErrorPage from "./error.jsx";
 import Home from "./routes/home.jsx";
-import AuthProvider from "./auth.jsx";
+import { AuthProvider } from "./auth.jsx";
 
-async function loginLoader() {
+export async function loginLoader() {
   if (AuthProvider.isAuthenticated) {
-    return redirect("/");
+    redirect("/");
   }
   return null;
 }
@@ -37,8 +37,9 @@ async function loginAction({ request }) {
   }
 
   try {
-    AuthProvider.login(username);
+    await AuthProvider.signin(username);
   } catch (error) {
+    console.log(error);
     return {
       error: "invalid login attempt",
     };
@@ -46,35 +47,6 @@ async function loginAction({ request }) {
 
   let redirectTo = formData.get("redirectTo");
   return redirect(redirectTo);
-}
-
-function LoginPage() {
-  let location = useLocation();
-  let params = new URLSearchParams(location.search);
-  let from = params.get("from") || "/";
-
-  let navigation = useNavigation();
-  let isLoggingIn = navigation.formData?.get("username") != null;
-
-  let actionData = useActionData();
-
-  return (
-    <div>
-      <p>You must log in to view the page at {from}</p>
-      <Form method="post" replace>
-        <input type="hidden" name="redirectTo" value={from} />
-        <label>
-          Username: <input name="username" />
-        </label>{" "}
-        <button type="submit" disabled={isLoggingIn}>
-          {isLoggingIn ? "Logging in..." : "Login"}
-        </button>
-        {actionData && actionData.error ? (
-          <p style={{ color: "red" }}>{actionData.error}</p>
-        ) : null}
-      </Form>
-    </div>
-  );
 }
 
 function protectedLoader({ request }) {
@@ -90,8 +62,12 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
+    id: "root",
     loader: () => {
-      return { user: AuthProvider.username };
+      return {
+        username: AuthProvider.userName,
+        isAuthenticated: AuthProvider.isAuthenticated,
+      };
     },
     errorElement: <ErrorPage />,
     children: [
@@ -106,10 +82,11 @@ const router = createBrowserRouter([
       {
         path: "profile",
         element: <Profile />,
+        loader: protectedLoader,
       },
       {
         path: "login",
-        element: LoginPage,
+        element: <Login />,
         loader: loginLoader,
         action: loginAction,
       },

@@ -19,6 +19,9 @@ export default function GrattyNavbar() {
         <Nav.Link as={Link} to="/login">
           Login
         </Nav.Link>
+        <Nav.Link as={Link} to="/profile">
+          Profile
+        </Nav.Link>
       </Nav>
     </Navbar>
   );
