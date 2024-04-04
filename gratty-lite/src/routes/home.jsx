@@ -1,8 +1,10 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import { useRouteLoaderData } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 
 export default function Home() {
-  let { username, isAuthenticated } = useRouteLoaderData("root");
+  let { isAuthenticated } = useAuth0();
+
   return (
     <Container>
       <h1>Home</h1>

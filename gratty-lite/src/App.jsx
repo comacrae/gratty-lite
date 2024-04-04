@@ -17,8 +17,8 @@ import Secret from "./routes/secret.jsx";
 import Profile from "./routes/profile.jsx";
 import ErrorPage from "./error.jsx";
 import Home from "./routes/home.jsx";
+import { useAuth0 } from "@auth0/auth0-react";
 import { AuthProvider } from "./auth.jsx";
-
 export async function logoutAction() {
   console.log("attemting logout");
   if (!AuthProvider.isAuthenticated) {
@@ -59,7 +59,8 @@ async function loginAction({ request }) {
 }
 
 function protectedLoader({ request }) {
-  if (!AuthProvider.isAuthenticated) {
+  let { isAuthenticated } = useAuth0();
+  if (!isAuthenticated) {
     let params = new URLSearchParams();
     params.set("from", new URL(request.url).pathname);
     return redirect("/login?" + params.toString());
