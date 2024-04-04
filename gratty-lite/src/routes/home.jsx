@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <Container>
       <h1>Home</h1>
-      <p>{new String(isAuthenticated)}</p>
+      <p>Logged in:{new String(isAuthenticated)}</p>
     </Container>
   );
 }

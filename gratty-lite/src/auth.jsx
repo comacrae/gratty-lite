@@ -11,7 +11,7 @@ export const AuthProvider = {
   },
   async signout() {
     await new Promise((r) => setTimeout(r, 500));
-    auth.isAuthenticated = false;
-    auth.userName = "";
+    AuthProvider.isAuthenticated = false;
+    AuthProvider.userName = "";
   },
 };

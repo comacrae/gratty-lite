@@ -19,9 +19,18 @@ import ErrorPage from "./error.jsx";
 import Home from "./routes/home.jsx";
 import { AuthProvider } from "./auth.jsx";
 
+export async function logoutAction() {
+  console.log("attemting logout");
+  if (!AuthProvider.isAuthenticated) {
+    return redirect("/");
+  }
+  await AuthProvider.signout();
+  return redirect("/");
+}
+
 export async function loginLoader() {
   if (AuthProvider.isAuthenticated) {
-    redirect("/");
+    return redirect("/");
   }
   return null;
 }
@@ -78,6 +87,10 @@ const router = createBrowserRouter([
       {
         path: "about",
         element: <About />,
+      },
+      {
+        path: "/logout",
+        action: logoutAction,
       },
       {
         path: "profile",
