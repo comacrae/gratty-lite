@@ -1,5 +1,3 @@
-"use strict";
-
 export const AuthProvider = {
   isAuthenticated: false,
   userName: null,

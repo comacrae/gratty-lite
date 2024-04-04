@@ -1,18 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { Auth0Provider } from "@auth0/auth0-react";
+import { Auth0ProviderWithRedirectCallback } from "./components/authenticationGuard.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import App from "./App.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Auth0Provider
+    <Auth0ProviderWithRedirectCallback
       domain={import.meta.env.VITE_AUTH0_DOMAIN}
       clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
-      clientSe
       authorizationParams={{ redirect_uri: window.location.origin }}
     >
       <App />
-    </Auth0Provider>
+    </Auth0ProviderWithRedirectCallback>
   </React.StrictMode>
 );

@@ -17,8 +17,9 @@ import Secret from "./routes/secret.jsx";
 import Profile from "./routes/profile.jsx";
 import ErrorPage from "./error.jsx";
 import Home from "./routes/home.jsx";
-import { useAuth0 } from "@auth0/auth0-react";
+import { ProtectedRoute } from "./components/authenticationGuard.jsx";
 import { AuthProvider } from "./auth.jsx";
+
 export async function logoutAction() {
   console.log("attemting logout");
   if (!AuthProvider.isAuthenticated) {
@@ -90,19 +91,8 @@ const router = createBrowserRouter([
         element: <About />,
       },
       {
-        path: "/logout",
-        action: logoutAction,
-      },
-      {
         path: "profile",
-        element: <Profile />,
-        loader: protectedLoader,
-      },
-      {
-        path: "login",
-        element: <Login />,
-        loader: loginLoader,
-        action: loginAction,
+        element: <ProtectedRoute component={Profile} />,
       },
     ],
   },
