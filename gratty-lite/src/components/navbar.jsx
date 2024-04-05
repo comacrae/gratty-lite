@@ -1,10 +1,9 @@
-import { Link, useRouteLoaderData, useFetcher } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Login } from "../routes/login";
 
-const LoginButton = () => {
+const LoginSignupRedirectButton = ({ text }) => {
   const { loginWithRedirect } = useAuth0();
   return (
     <button
@@ -13,7 +12,7 @@ const LoginButton = () => {
         loginWithRedirect({ appState: { returnTo: "/" } });
       }}
     >
-      Log In
+      {text}
     </button>
   );
 };
@@ -32,20 +31,8 @@ const LogoutButton = () => {
   );
 };
 
-const FetcherButton = () => {
-  const fetcher = useFetcher();
-  return (
-    <fetcher.Form method="post" action="/logout">
-      <button className="nav-link" type="submit">
-        Log Out
-      </button>
-    </fetcher.Form>
-  );
-};
-
 export default function GrattyNavbar() {
   let { isAuthenticated } = useAuth0();
-  console.log(isAuthenticated);
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Navbar.Brand as={Link} to="/">
@@ -59,10 +46,22 @@ export default function GrattyNavbar() {
         <Nav.Link as={Link} to="/about">
           About
         </Nav.Link>
-        <Nav.Link as={Link} to="/profile">
-          Profile
+        {isAuthenticated ? (
+          <>
+            <Nav.Link as={Link} to="/profile">
+              Profile
+            </Nav.Link>
+            <LogoutButton />
+          </>
+        ) : (
+          <>
+            <LoginSignupRedirectButton text="Log In" />
+            <LoginSignupRedirectButton text="Sign Up" />
+          </>
+        )}
+        <Nav.Link as={Link} to="/lists">
+          Lists
         </Nav.Link>
-        {isAuthenticated ? <LogoutButton /> : <LoginButton />}
       </Nav>
     </Navbar>
   );

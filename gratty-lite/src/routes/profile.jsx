@@ -1,6 +1,10 @@
-import { useAuth0 } from "@auth0/auth0-react";
+import { User } from "@auth0/auth0-react";
+import { useLoaderData } from "react-router-dom";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 export default function Profile() {
-  let { user } = useAuth0();
+  const user = useLoaderData();
   console.log(user);
-  return <p>{new String(user)}</p>;
+  return <p>{new String(user.nickname)}</p>;
 }
