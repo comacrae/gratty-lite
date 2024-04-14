@@ -18,7 +18,7 @@ const router = createBrowserRouter([
     element: <Root />,
     id: "root",
     loader: () => {
-      return AuthProvider.username;
+      return { username: AuthProvider.username, userID: AuthProvider.userID };
     },
     errorElement: <ErrorPage />,
     children: [

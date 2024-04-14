@@ -16,6 +16,7 @@ export async function getUserDetails(username) {
             status: "success",
             firstName: user.first_name,
             lastName: user.last_name,
+            userID: user.id,
           };
         }
         return userData;

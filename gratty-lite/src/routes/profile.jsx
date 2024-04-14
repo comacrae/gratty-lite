@@ -33,7 +33,13 @@ export default function Profile() {
             </h1>
           </Row>
           <Row sm="auto">
-            <h2>{username}</h2>
+            <h3>{username}</h3>
+          </Row>
+          <Row sm="auto">
+            <h5>Followers: 0</h5>
+          </Row>
+          <Row sm="auto">
+            <h5>Following: 0</h5>
           </Row>
         </Col>
       </Row>

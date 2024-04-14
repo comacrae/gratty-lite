@@ -1,18 +1,23 @@
 import { redirect } from "react-router-dom";
+import { getUserDetails } from "./loaderUtils";
 export const AuthProvider = {
   isAuthenticated: false,
   username: null,
+  userID: null,
   login: async function (username) {
     console.log("attempting login");
     await new Promise((r) => setTimeout(r, 500)); // fake delay
     AuthProvider.isAuthenticated = true;
     AuthProvider.username = username;
+    // would have some verification here
+    AuthProvider.userID = getUserDetails.userID;
   },
 
   logout: async function (username) {
     await new Promise((r) => setTimeout(r, 500)); // fake delay
     AuthProvider.isAuthenticated = false;
     AuthProvider.username = null;
+    AuthProvider.userID = null;
   },
 };
 
