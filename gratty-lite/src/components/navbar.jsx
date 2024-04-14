@@ -6,7 +6,7 @@ import Container from "react-bootstrap/Container";
 export default function GrattyNavbar({ isAuthenticated }) {
   const fetcher = useFetcher();
   return (
-    <Navbar expand="md" className="bg-body-tertiary">
+    <Navbar expand="sm" className="bg-body-tertiary">
       <Container fluid>
         <Navbar.Brand as={Link} to="/">
           GrattyLite
