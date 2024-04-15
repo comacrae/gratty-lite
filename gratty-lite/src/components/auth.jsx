@@ -1,16 +1,20 @@
 import { redirect } from "react-router-dom";
-import { getUserDetails } from "./loaderUtils";
+import { getUserID } from "./loaderUtils";
 export const AuthProvider = {
   isAuthenticated: false,
   username: null,
   userID: null,
   login: async function (username) {
-    console.log("attempting login");
     await new Promise((r) => setTimeout(r, 500)); // fake delay
     AuthProvider.isAuthenticated = true;
     AuthProvider.username = username;
     // would have some verification here
-    AuthProvider.userID = getUserDetails.userID;
+    const idResponse = await getUserID(username);
+    if (idResponse.id) {
+      AuthProvider.userID = idResponse.id;
+    } else {
+      throw Error("user ID returned from server for given username is null");
+    }
   },
 
   logout: async function (username) {
@@ -39,7 +43,6 @@ export async function loginAction({ request }) {
 }
 
 export async function loginLoader() {
-  console.log("login loader");
   if (AuthProvider.isAuthenticated) {
     return redirect("/");
   }
@@ -47,9 +50,7 @@ export async function loginLoader() {
 }
 
 export async function logoutAction() {
-  console.log("attempting logout");
   await AuthProvider.logout();
-  console.log(AuthProvider.isAuthenticated);
   return redirect("/");
 }
 

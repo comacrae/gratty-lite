@@ -1,0 +1,12 @@
+@import "node_modules/bootstrap/scss/bootstrap";
+
+.border-bottom-nav-link {
+  @extend .border-bottom;
+  @include media-breakpoint-up(sm) {
+    border-bottom-style: none !important;
+  }
+}
+
+.custom-link {
+  text-decoration: none;
+}

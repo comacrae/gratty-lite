@@ -18,7 +18,11 @@ const router = createBrowserRouter([
     element: <Root />,
     id: "root",
     loader: () => {
-      return { username: AuthProvider.username, userID: AuthProvider.userID };
+      return {
+        username: AuthProvider.username,
+        userID: AuthProvider.userID,
+        isAuthenticated: AuthProvider.isAuthenticated,
+      };
     },
     errorElement: <ErrorPage />,
     children: [

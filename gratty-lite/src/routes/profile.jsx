@@ -1,10 +1,10 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Image from "react-bootstrap/Image";
 import { protectedLoader } from "../components/auth";
-import { getUserDetails } from "../components/loaderUtils";
+import { getUserDetails, getFollowDetails } from "../components/loaderUtils";
 
 export async function profileLoader({ request }) {
   const username = protectedLoader(request);
@@ -15,10 +15,17 @@ export async function profileLoader({ request }) {
   } else if (userData.status === "no matching user") {
     throw Error(`There is no username: ${username} in the database`);
   }
-  return { userData, username };
+
+  const followDetails = await getFollowDetails(userData.userID);
+  if (followDetails.status != "success") {
+    throw Error(followDetails.status);
+  }
+  return { userData, username, followDetails };
 }
 export default function Profile() {
-  const { userData, username } = useLoaderData();
+  const { userData, username, followDetails } = useLoaderData();
+  const numFollowers = followDetails.followers.length;
+  const numFollowing = followDetails.following.length;
 
   return (
     <Container fluid>
@@ -36,10 +43,28 @@ export default function Profile() {
             <h3>{username}</h3>
           </Row>
           <Row sm="auto">
-            <h5>Followers: 0</h5>
+            <h5>
+              {"Followers: "}
+              {numFollowers > 0 ? (
+                <Link to="/followers" className="custom-link">
+                  {numFollowers}
+                </Link>
+              ) : (
+                { numFollowers }
+              )}
+            </h5>
           </Row>
           <Row sm="auto">
-            <h5>Following: 0</h5>
+            <h5>
+              {"Following: "}
+              {numFollowing > 0 ? (
+                <Link to="/following" className="custom-link">
+                  {numFollowing}
+                </Link>
+              ) : (
+                { numFollowing }
+              )}
+            </h5>
           </Row>
         </Col>
       </Row>
