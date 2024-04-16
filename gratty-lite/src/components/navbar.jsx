@@ -31,15 +31,15 @@ export default function GrattyNavbar({ isAuthenticated }) {
               <>
                 <CustomNavLink to="/profile" name="Profile"></CustomNavLink>
                 <CustomNavLink to="/lists" name="Lists"></CustomNavLink>
-                <fetcher.Form
-                  method="post"
-                  action="/logout"
-                  className="border-bottom-nav-link"
-                >
-                  <button className=" nav-link" type="submit">
-                    Log Out
-                  </button>
-                </fetcher.Form>
+
+                <div className="d-flex flex-column align-items-center">
+                  <fetcher.Form method="post" action="/logout">
+                    <button className="nav-link" type="submit">
+                      Log Out
+                    </button>
+                  </fetcher.Form>
+                  <div className="border-bottom-nav-link w-75 "></div>
+                </div>
               </>
             ) : (
               <CustomNavLink to="/login" name="Login"></CustomNavLink>
