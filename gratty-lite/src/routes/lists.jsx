@@ -3,6 +3,8 @@ import { checkProtected, getAuthDetails } from "../components/auth";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import ListGroup from "react-bootstrap/ListGroup";
+import ListGroupItem from "react-bootstrap/ListGroupItem";
 import { getListDetails } from "../middleware/loaderUtils";
 
 export async function listsLoader({ request }) {
@@ -19,10 +21,10 @@ export async function listsLoader({ request }) {
   }
 }
 
-function getList(details) {
-  return details.map((list, idx) => {
-    return <p key={idx}>{list.created_at}</p>;
-  });
+function getLists(details, perRow) {
+  const lists = new Array();
+  const idx = 1;
+  while (idx < details.length) {}
 }
 export default function Lists() {
   const details = useLoaderData();
