@@ -5,6 +5,7 @@ import Profile, { profileLoader } from "./routes/profile.jsx";
 import ErrorPage from "./error.jsx";
 import Home from "./routes/home.jsx";
 import Login from "./routes/login.jsx";
+import Lists, { listsLoader } from "./routes/lists.jsx";
 import {
   AuthProvider,
   loginAction,
@@ -56,7 +57,8 @@ const router = createBrowserRouter([
       {
         id: "lists",
         path: "lists",
-        element: <Profile />,
+        loader: listsLoader,
+        element: <Lists />,
       },
     ],
   },

@@ -1,5 +1,6 @@
 import { redirect } from "react-router-dom";
-import { getUserID } from "./loaderUtils";
+import { getUserID } from "../middleware/loaderUtils";
+
 export const AuthProvider = {
   isAuthenticated: false,
   username: null,
@@ -10,7 +11,7 @@ export const AuthProvider = {
     AuthProvider.username = username;
     // would have some verification here
     const idResponse = await getUserID(username);
-    if (idResponse.id) {
+    if (idResponse.id != null) {
       AuthProvider.userID = idResponse.id;
     } else {
       throw Error("user ID returned from server for given username is null");
@@ -54,11 +55,19 @@ export async function logoutAction() {
   return redirect("/");
 }
 
-export function protectedLoader(request) {
+export function checkProtected(request) {
   if (!AuthProvider.isAuthenticated) {
     let params = new URLSearchParams();
     params.set("from", new URL(request.url).pathname);
-    return redirect("/login?" + params.toString());
+    return { isProtected: false, redirectURL: "/login?" + params.toString() };
   }
-  return AuthProvider.username;
+  return { isProtected: true, redirectURL: null };
+}
+
+export function getAuthDetails() {
+  return {
+    isAuthenticated: AuthProvider.isAuthenticated,
+    username: AuthProvider.username,
+    userID: AuthProvider.userID,
+  };
 }

@@ -1,25 +1,22 @@
-import { useLoaderData, Link } from "react-router-dom";
+import { useLoaderData, Link, redirect } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Image from "react-bootstrap/Image";
-import { protectedLoader } from "../components/auth";
-import { getUserDetails, getFollowDetails } from "../components/loaderUtils";
+import { checkProtected, getAuthDetails } from "../components/auth";
+import { getUserDetails, getFollowDetails } from "../middleware/loaderUtils";
 
 export async function profileLoader({ request }) {
-  const username = protectedLoader(request);
-  let userData = await getUserDetails(username);
+  const { isProtected, redirectURL } = checkProtected(request);
+  if (!isProtected) {
+    return redirect(redirectURL);
+  }
+  const { username } = getAuthDetails();
+  const { userDataStatus, userData } = await getUserDetails(username);
   // if the following is invalid, there isn't a matching username in the db
-  if (userData.status === "error") {
-    throw Error("Error in getUserDetails");
-  } else if (userData.status === "no matching user") {
-    throw Error(`There is no username: ${username} in the database`);
-  }
-
-  const followDetails = await getFollowDetails(userData.userID);
-  if (followDetails.status != "success") {
-    throw Error(followDetails.status);
-  }
+  const { followDetailsStatus, followDetails } = await getFollowDetails(
+    userData.userID
+  );
   return { userData, username, followDetails };
 }
 export default function Profile() {
