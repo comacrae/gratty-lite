@@ -6,6 +6,7 @@ import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
 import ListGroupItem from "react-bootstrap/ListGroupItem";
 import { getListDetails } from "../middleware/loaderUtils";
+import GratitudeListGroup from "../components/gratListGroups";
 
 export async function listsLoader({ request }) {
   const { isProtected, redirectURL } = checkProtected(request);
@@ -21,17 +22,24 @@ export async function listsLoader({ request }) {
   }
 }
 
-function getLists(details, perRow) {
-  const lists = new Array();
-  const idx = 1;
-  while (idx < details.length) {}
-}
 export default function Lists() {
-  const details = useLoaderData();
+  //const details = useLoaderData();
+  const details = [
+    { id: 0, created_at: "24-03-15" },
+    { id: 1, created_at: "24-03-15" },
+    { id: 2, created_at: "24-03-15" },
+    { id: 3, created_at: "24-03-15" },
+    { id: 4, created_at: "24-03-15" },
+    { id: 5, created_at: "24-03-15" },
+  ];
   const numDetails = details.length;
   return (
     <Container fluid>
-      {numDetails > 0 ? getList(details) : <p>empty</p>}
+      {numDetails > 0 ? (
+        <GratitudeListGroup list={details} perGroup={4}></GratitudeListGroup>
+      ) : (
+        <p>empty</p>
+      )}
     </Container>
   );
 }

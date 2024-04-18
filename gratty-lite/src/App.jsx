@@ -6,6 +6,7 @@ import ErrorPage from "./error.jsx";
 import Home from "./routes/home.jsx";
 import Login from "./routes/login.jsx";
 import Lists, { listsLoader } from "./routes/lists.jsx";
+import List, { listLoader } from "./routes/list.jsx";
 import {
   AuthProvider,
   loginAction,
@@ -59,6 +60,12 @@ const router = createBrowserRouter([
         path: "lists",
         loader: listsLoader,
         element: <Lists />,
+      },
+      {
+        id: "list",
+        path: ":listID",
+        loader: listLoader,
+        element: <List />,
       },
     ],
   },
