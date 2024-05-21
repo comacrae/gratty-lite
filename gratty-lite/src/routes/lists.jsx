@@ -23,19 +23,10 @@ export async function listsLoader({ request }) {
 }
 
 export default function Lists() {
-  //const details = useLoaderData();
-  const details = [
-    { id: 0, created_at: "24-03-15" },
-    { id: 1, created_at: "24-03-15" },
-    { id: 2, created_at: "24-03-15" },
-    { id: 3, created_at: "24-03-15" },
-    { id: 4, created_at: "24-03-15" },
-    { id: 5, created_at: "24-03-15" },
-  ];
-  const numDetails = details.length;
+  const details = useLoaderData();
   return (
     <Container fluid>
-      {numDetails > 0 ? (
+      {details.length > 0 ? (
         <GratitudeListGroup list={details} perGroup={4}></GratitudeListGroup>
       ) : (
         <p>empty</p>

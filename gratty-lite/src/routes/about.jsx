@@ -4,12 +4,13 @@ import Col from "react-bootstrap/Col";
 
 export default function About() {
   return (
-    <Container>
-      <Row className="d-flex justify-content-center">
+    <Container fluid>
+      <Row>
         <Col>
-          <h1>Gratitude simplified.</h1>
+          <h1 className="display-1">Gratitude simplified.</h1>
         </Col>
       </Row>
+      <Row></Row>
     </Container>
   );
 }

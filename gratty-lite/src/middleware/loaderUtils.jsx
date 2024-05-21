@@ -25,19 +25,25 @@ export async function getUserID(username) {
   return userID;
 }
 
-export async function getUserDetails(username) {
+export async function getUserDetails(userID) {
   const userDetails = { status: null, userData: null };
   userDetails.userData = await axios
-    .get(`${BASE_URL}/users/by-username/${username}`)
+    .get(`${BASE_URL}/users/by-id/${userID}`)
     .then(function (response) {
       const resData = response.data;
       if (resData.status === "success") {
-        let userData = { firstName: null, lastName: null, userID: null };
+        let userData = {
+          firstName: null,
+          lastName: null,
+          userID: null,
+          username: null,
+        };
         if (resData.data.length == 0) {
           userDetails.status = "no matching user";
         } else {
           const user = resData.data[0];
           userData = {
+            username: user.username,
             firstName: user.first_name,
             lastName: user.last_name,
             userID: user.id,
@@ -110,4 +116,23 @@ export async function getListDetails(userID) {
       listDetails.status = "error";
     });
   return listDetails;
+}
+
+export async function getListItems(userID, listID) {
+  const listItems = { status: null, data: null };
+  listItems.data = await axios
+    .get(`${BASE_URL}/authors/${userID}/gratitude-lists/${listID}`)
+    .then(function (response) {
+      const resData = response.data;
+      if (resData.status === "success") {
+        listItems.status = "success";
+        return resData.data;
+      } else {
+        listItems.status = "no match?";
+      }
+    })
+    .catch(function (response) {
+      listItem.status = "error in getListItems";
+    });
+  return listItems;
 }

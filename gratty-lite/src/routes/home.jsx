@@ -1,7 +1,7 @@
-import { useRouteLoaderData } from "react-router-dom";
 import Container from "react-bootstrap/Container";
+import { getAuthDetails } from "../components/auth";
 export default function Home() {
-  const { isAuthenticated, userID } = useRouteLoaderData("root");
+  const { isAuthenticated, userID } = getAuthDetails();
 
   return (
     <Container fluid>

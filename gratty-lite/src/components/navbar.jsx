@@ -1,4 +1,5 @@
 import { Link, useFetcher } from "react-router-dom";
+import { getAuthDetails } from "./auth";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
@@ -14,7 +15,8 @@ function CustomNavLink({ to, name }) {
   );
 }
 
-export default function GrattyNavbar({ isAuthenticated }) {
+export default function GrattyNavbar() {
+  const { isAuthenticated, userID } = getAuthDetails();
   const fetcher = useFetcher();
   return (
     <Container fluid className="mb-2">
@@ -29,7 +31,10 @@ export default function GrattyNavbar({ isAuthenticated }) {
             <CustomNavLink to="/about" name="About"></CustomNavLink>
             {isAuthenticated ? (
               <>
-                <CustomNavLink to="/profile" name="Profile"></CustomNavLink>
+                <CustomNavLink
+                  to={`/profile/${userID}`}
+                  name="Profile"
+                ></CustomNavLink>
                 <CustomNavLink to="/lists" name="Lists"></CustomNavLink>
 
                 <div className="d-flex flex-column align-items-center">

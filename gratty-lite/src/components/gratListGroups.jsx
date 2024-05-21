@@ -30,8 +30,8 @@ export default function gratitudeListGroup({ list, perGroup }) {
       className="d-flex flex-column flex-sm-row justify-content-center"
     >
       {list.map((item, colIdx) => (
-        <Col key={colIdx} className="text-center ">
-          <Link to={item.id} key={item.id}>
+        <Col key={colIdx} className="text-center">
+          <Link to={`../list/${item.id}`} key={item.id}>
             {item.created_at}
           </Link>
         </Col>

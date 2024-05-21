@@ -5,10 +5,9 @@ import Col from "react-bootstrap/Col";
 import GrattyNavbar from "../components/navbar";
 
 export default function Root() {
-  const { isAuthenticated } = useRouteLoaderData("root");
   return (
     <Container fluid>
-      <GrattyNavbar isAuthenticated={isAuthenticated} />
+      <GrattyNavbar />
       <Outlet />
     </Container>
   );

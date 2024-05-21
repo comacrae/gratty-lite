@@ -3,24 +3,22 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Image from "react-bootstrap/Image";
-import { checkProtected, getAuthDetails } from "../components/auth";
+import { checkProtected } from "../components/auth";
 import { getUserDetails, getFollowDetails } from "../middleware/loaderUtils";
 
-export async function profileLoader({ request }) {
+export async function profileLoader({ request, params }) {
+  const userID = params.userID;
   const { isProtected, redirectURL } = checkProtected(request);
   if (!isProtected) {
     return redirect(redirectURL);
   }
-  const { username } = getAuthDetails();
-  const { userDataStatus, userData } = await getUserDetails(username);
+  const { userData } = await getUserDetails(userID);
   // if the following is invalid, there isn't a matching username in the db
-  const { followDetailsStatus, followDetails } = await getFollowDetails(
-    userData.userID
-  );
-  return { userData, username, followDetails };
+  const { followDetails } = await getFollowDetails(userID);
+  return { userData, followDetails };
 }
 export default function Profile() {
-  const { userData, username, followDetails } = useLoaderData();
+  const { userData, followDetails } = useLoaderData();
   const numFollowers = followDetails.followers.length;
   const numFollowing = followDetails.following.length;
 
@@ -37,7 +35,7 @@ export default function Profile() {
             </h1>
           </Row>
           <Row sm="auto">
-            <h3>{username}</h3>
+            <h3>{userData.username}</h3>
           </Row>
           <Row sm="auto">
             <h5>
