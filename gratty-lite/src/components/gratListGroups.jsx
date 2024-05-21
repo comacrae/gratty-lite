@@ -21,7 +21,7 @@ function getGroupedList(list, perGroup) {
   return groups;
 }
 
-export default function gratitudeListGroup({ list, perGroup }) {
+export default function gratitudeListGroup({ list, userID, perGroup }) {
   const lists = getGroupedList(list, perGroup);
   return lists.map((list, rowIdx) => (
     //flex col up to sm breakpoint, then flexrow
@@ -31,7 +31,7 @@ export default function gratitudeListGroup({ list, perGroup }) {
     >
       {list.map((item, colIdx) => (
         <Col key={colIdx} className="text-center">
-          <Link to={`../list/${item.id}`} key={item.id}>
+          <Link to={`/${userID}/lists/${item.id}`} key={item.id}>
             {item.created_at}
           </Link>
         </Col>

@@ -8,26 +8,30 @@ import ListGroupItem from "react-bootstrap/ListGroupItem";
 import { getListDetails } from "../middleware/loaderUtils";
 import GratitudeListGroup from "../components/gratListGroups";
 
-export async function listsLoader({ request }) {
+export async function listsLoader({ request, params }) {
   const { isProtected, redirectURL } = checkProtected(request);
   if (!isProtected) {
     return redirect(redirectURL);
   }
-  const { userID } = getAuthDetails();
+  const userID = params.userID;
   const { status, details } = await getListDetails(userID);
   if (status === "success") {
-    return details;
+    return { details: details, userID: userID };
   } else {
     return null;
   }
 }
 
 export default function Lists() {
-  const details = useLoaderData();
+  const { details, userID } = useLoaderData();
   return (
     <Container fluid>
       {details.length > 0 ? (
-        <GratitudeListGroup list={details} perGroup={4}></GratitudeListGroup>
+        <GratitudeListGroup
+          list={details}
+          userID={userID}
+          perGroup={4}
+        ></GratitudeListGroup>
       ) : (
         <p>empty</p>
       )}

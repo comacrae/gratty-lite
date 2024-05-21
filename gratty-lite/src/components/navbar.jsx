@@ -32,10 +32,13 @@ export default function GrattyNavbar() {
             {isAuthenticated ? (
               <>
                 <CustomNavLink
-                  to={`/profile/${userID}`}
+                  to={`/${userID}/profile`}
                   name="Profile"
                 ></CustomNavLink>
-                <CustomNavLink to="/lists" name="Lists"></CustomNavLink>
+                <CustomNavLink
+                  to={`/${userID}/lists`}
+                  name="Lists"
+                ></CustomNavLink>
 
                 <div className="d-flex flex-column align-items-center">
                   <fetcher.Form method="post" action="/logout">

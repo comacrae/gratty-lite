@@ -4,13 +4,12 @@ import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
 import { getListItems } from "../middleware/loaderUtils";
 
-export async function listLoader({ request }) {
-  const { userID } = getAuthDetails();
+export async function listLoader({ request, params }) {
   const { isProtected, redirectURL } = checkProtected(request);
   if (!isProtected) {
     return redirect(redirectURL);
   }
-  const listID = request.url.split("list/")[1];
+  const { userID, listID } = params;
   const items = await getListItems(userID, listID);
   if (items.status === "success") {
     return items.data;

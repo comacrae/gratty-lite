@@ -58,8 +58,8 @@ const router = createBrowserRouter([
       },
 
       {
-        id: ":userID/lists",
-        path: "lists",
+        id: "lists",
+        path: ":userID/lists",
         loader: listsLoader,
         element: <Lists />,
       },
@@ -70,7 +70,7 @@ const router = createBrowserRouter([
         element: <List />,
       },
       {
-        id: "followers",
+        id: "following",
         path: ":userID/following",
         loader: followingLoader,
         element: <FollowingList />,

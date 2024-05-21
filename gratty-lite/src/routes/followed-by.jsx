@@ -25,7 +25,7 @@ export default function FollowedByList() {
       {followingList.map((follower, idx) => {
         return (
           <Row key={idx}>
-            <Link to={`/profile/${follower.follow_id}`}>
+            <Link to={`/${follower.follower_id}/profile/`}>
               <p>{follower.username}</p>
             </Link>
           </Row>

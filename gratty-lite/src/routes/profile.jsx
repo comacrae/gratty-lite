@@ -15,10 +15,10 @@ export async function profileLoader({ request, params }) {
   const { userData } = await getUserDetails(userID);
   // if the following is invalid, there isn't a matching username in the db
   const { followDetails } = await getFollowDetails(userID);
-  return { userData, followDetails };
+  return { userID, userData, followDetails };
 }
 export default function Profile() {
-  const { userData, followDetails } = useLoaderData();
+  const { userID, userData, followDetails } = useLoaderData();
   const numFollowers = followDetails.followers.length;
   const numFollowing = followDetails.following.length;
 
@@ -41,7 +41,7 @@ export default function Profile() {
             <h5>
               {"Followers: "}
               {numFollowers > 0 ? (
-                <Link to="/followers" className="custom-link">
+                <Link to={`/${userID}/followed-by`} className="custom-link">
                   {numFollowers}
                 </Link>
               ) : (
@@ -53,7 +53,7 @@ export default function Profile() {
             <h5>
               {"Following: "}
               {numFollowing > 0 ? (
-                <Link to="/following" className="custom-link">
+                <Link to={`/${userID}/following`} className="custom-link">
                   {numFollowing}
                 </Link>
               ) : (
