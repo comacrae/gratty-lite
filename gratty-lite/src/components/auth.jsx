@@ -65,7 +65,12 @@ export async function logoutAction() {
 }
 
 export function checkProtected(request) {
-  console.log(cache.getItem("auth"));
+  const cachedAuthProvider = cache.getItem("auth");
+  if (!cachedAuthProvider) {
+    // if no auth provider in cache
+    return { isProtected: false, redirectURL: "/login?" + params.toString() };
+  }
+
   if (!cache.getItem("auth").isAuthenticated) {
     let params = new URLSearchParams();
     params.set("from", new URL(request.url).pathname);
